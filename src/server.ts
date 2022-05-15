@@ -1,11 +1,13 @@
 import express from "express";
 import ConnectDB from "./config/database";
-import user from "./routes/user";
+import Routes from "./routes/routes";
 import bodyParser from "body-parser";
 const app = express().use(bodyParser.json());
 const PORT = 3000;
-app.use("/api/v1", user);
 
+app.use("/api/v1", Routes);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

@@ -1,16 +1,19 @@
+import { env } from "process";
+
+require("dotenv").config();
 const config = {
-  name: "My Application",
-  port: 3000,
-  baseUrl: "http://localhost:3000",
+  name: env.APP_NAME || "",
+  port: env.PORT || 3000,
+  baseUrl: env.BASE_URL || "",
   database: {
-    connectionString: "mongodb://localhost:27017/ppobbs",
+    connectionString: env.DB_URL || "",
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     },
   },
   authentication: {
-    jwtSecret: "my-application-secret",
+    jwtSecret: env.JWT_SECRET,
   },
   email: {
     service: "gmail",

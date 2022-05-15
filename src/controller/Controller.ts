@@ -16,6 +16,7 @@ export class Controller {
       | "Success to create data"
       | "Success to update data"
       | "Success to delete data"
+      | any
   ): Promise<void> {
     res.status(200).json({
       status: "success",
