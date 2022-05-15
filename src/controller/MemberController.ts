@@ -3,14 +3,6 @@ import Models from "../models/Model";
 import Controller from "../controller/Controller";
 
 export class MemberController {
-  private static async getCurrentDate() {
-    const t = new Date();
-    const date = ("0" + t.getDate()).slice(-2);
-    const month = ("0" + (t.getMonth() + 1)).slice(-2);
-    const year = t.getFullYear();
-    return `${date}/${month}/${year}`;
-  }
-
   public static async getAllMember(req: Request, res: Response): Promise<void> {
     try {
       const members = await Models.Member.find();
@@ -121,4 +113,5 @@ export class MemberController {
       Controller.ResponseError(res, error);
     }
   }
+
 }
