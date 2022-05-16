@@ -15,9 +15,10 @@ export class MemberController {
   // create function to borrow books if member not borrow book more than 2
   public static async borrowBook(req: Request, res: Response): Promise<void> {
     try {
-      const { userCode, bookId } = req.body;
-      const member = await Models.Member.findOne({ code: userCode });
-      const book = await Models.Book.findOne({ code: bookId });
+      const { memberCode, bookCode } = req.body;
+      process.stdout.write(`Member ${memberCode} Book ${bookCode}`);
+      const member = await Models.Member.findOne({ code: memberCode });
+      const book = await Models.Book.findOne({ code: bookCode });
       const date = new Date();
 
       if (!member) {
@@ -49,7 +50,7 @@ export class MemberController {
       }
 
       member!.books.push({
-        bookId: bookId,
+        bookId: bookCode,
         boroowDate: date.setHours(0, 0, 0, 0),
         returnDate: date.setDate(date.getDate() + 7),
       });
@@ -69,9 +70,9 @@ export class MemberController {
   //create function to return book and check if his member return book on time or not
   public static async returnBook(req: Request, res: Response): Promise<void> {
     try {
-      const { userCode, bookId } = req.body;
-      const member = await Models.Member.findOne({ code: userCode });
-      const book = await Models.Book.findOne({ code: bookId });
+      const { memberCode, bookCode } = req.body;
+      const member = await Models.Member.findOne({ code: memberCode });
+      const book = await Models.Book.findOne({ code: bookCode });
       const date = new Date();
 
       if (!member) {
@@ -85,7 +86,7 @@ export class MemberController {
       }
 
       const memberBook = member!.books.find(
-        (memberBook: any) => memberBook.bookId === bookId
+        (memberBook: any) => memberBook.bookId === bookCode
       );
 
       if (!memberBook) {
@@ -99,7 +100,7 @@ export class MemberController {
       }
 
       member!.books = member!.books.filter(
-        (memberBook: any) => memberBook.bookId !== bookId
+        (memberBook: any) => memberBook.bookId !== bookCode
       );
 
       book.stock += 1;
@@ -113,5 +114,4 @@ export class MemberController {
       Controller.ResponseError(res, error);
     }
   }
-
 }

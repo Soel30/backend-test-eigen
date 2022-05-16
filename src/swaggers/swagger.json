@@ -1,0 +1,346 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Documentation for the API",
+        "version": "1.0.0",
+        "title": "Test Backend Eigen",
+        "contact": {
+            "name": "Sultan Achmad",
+            "email": "soeltan213@gmail.com",
+            "url": "https://github.com/soel30"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "tags": [{
+            "name": "Members",
+            "description": "Everything about members"
+        },
+        {
+            "name": "Books",
+            "description": "Everything about books"
+        }
+
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/members": {
+            "get": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Get all members",
+                "description": "Get all members",
+                "operationId": "getMembers",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Member"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Member not found"
+                    }
+                }
+            }
+        },
+        "/members/borrow": {
+            "post": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Borrow a book",
+                "description": "Borrow a book",
+                "operationId": "borrowBook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                        "name": "body",
+                        "in": "body",
+                        "description": "Borrow book",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Borrow"
+                        }
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/MemberBorrow"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Member not found"
+                    }
+                }
+            }
+        },
+        "/members/return": {
+            "post": {
+                "tags": [
+                    "Members"
+                ],
+                "summary": "Return a book",
+                "description": "Return a book",
+                "operationId": "returnBook",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                        "name": "body",
+                        "in": "body",
+                        "description": "Return book",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Return"
+                        }
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/MemberReturn"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Member not found"
+                    }
+                }
+            }
+        },
+        "/books": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get all books",
+                "description": "Get all books",
+                "operationId": "getBooks",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Book not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Member": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+
+        "MemberBorrow": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "penalty": {
+                            "type": "bollean"
+                        },
+                        "penaltyDate": {
+                            "type": "integer"
+                        },
+                        "_id": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "books": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "bookId": {
+                                        "type": "string"
+                                    },
+                                    "borrowDate": {
+                                        "type": "integer"
+                                    },
+                                    "returnDate": {
+                                        "type": "integer"
+                                    },
+                                    "_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+
+        "Borrow": {
+            "type": "object",
+            "properties": {
+                "bookCode": {
+                    "type": "string",
+                    "example": "JK-45"
+                },
+                "memberCode": {
+                    "type": "string",
+                    "example": "M001"
+                }
+            }
+        },
+
+        "Return": {
+            "type": "object",
+            "properties": {
+                "bookCode": {
+                    "type": "string",
+                    "example": "JK-45"
+                },
+                "memberCode": {
+                    "type": "string",
+                    "example": "M001"
+                }
+            }
+        },
+
+        "MemberReturn": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "penalty": {
+                            "type": "bollean"
+                        },
+                        "penaltyDate": {
+                            "type": "integer"
+                        },
+                        "_id": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "books": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "bookId": {
+                                        "type": "string"
+                                    },
+                                    "borrowDate": {
+                                        "type": "integer"
+                                    },
+                                    "returnDate": {
+                                        "type": "integer"
+                                    },
+                                    "_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+
+        "Book": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+
+}
